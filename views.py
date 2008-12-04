@@ -10,7 +10,7 @@ from django.views.decorators.cache import never_cache
 from django_tenderize.helpers import tenderize_response
 
 def login_and_tenderize(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
-    "Displays the login form and handles the login action."
+    "Displays the login form and handles the login action. Also logs you into Tender."
     redirect_to = request.REQUEST.get(redirect_field_name, '')
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -22,7 +22,7 @@ def login_and_tenderize(request, template_name='registration/login.html', redire
             user = form.get_user()
             login(request, user)
             if request.session.test_cookie_worked():
-                request.session.delete_test_cookie()
+                request.session.delete_test_cookie() 
             # Tender in here
             response = HttpResponseRedirect(redirect_to)
             response = tenderize_response(response, user.email)
