@@ -1,9 +1,11 @@
 * Installation *
 
 Tender uses tasty cookies to log your users in.
-This app contains an example view showing how to create them.
+http://help.tenderapp.com/faqs/setup-installation/login-from-cookies
 
-To use it you'll need these settings in your settings.py:
+This app includes a view like `django.contrib.auth.views.login` that in addition to logging a user in as normal, sets the cookies required by Tender. Yum.
+
+To use it you'll need these settings in your `settings.py`:
 
 # .yourdomain.com
 TENDER_COOKIE_DOMAIN = '.mobify.me'
@@ -13,3 +15,6 @@ TENDER_SECRET = "???"
 
 # your.tenderapp.com
 TENDER_DOMAIN = 'support.mobify.me'
+
+# how long the cookies will last
+TENDER_COOKIE_AGE = 1209600 # (2 weeks in seconds)
