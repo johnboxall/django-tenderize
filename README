@@ -1,3 +1,8 @@
+*Note*
+
+There is currently a bug in this implementation - the `tender_email` cookie is set to `"<email">` instead of `<email>`. Word on the street is change to the Tender code will allow this. (The Response.set_cookie() function stores cookie values as Python objects - so the email string is written as a Python string with quotes...)
+
+
 Info
 ----
 
