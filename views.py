@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.views.decorators.cache import never_cache
 
-from jungle.tender.helpers import tenderize_response
+from django_tenderize.helpers import tenderize_response
 
 def login_and_tenderize(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
     "Displays the login form and handles the login action."
