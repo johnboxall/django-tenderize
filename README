@@ -1,14 +1,21 @@
-*Note*
+Note
+----
 
-There is currently a bug in this implementation - the `tender_email` cookie is set to `"<email">` instead of `<email>`. Word on the street is change to the Tender code will allow this. (The Response.set_cookie() function stores cookie values as Python objects - so the email string is written as a Python string with quotes...)
+There is currently a bug in this implementation - the `tender_email` cookie is set to `"<email">` instead of `<email>`. Word on the street is change to the Tender code will allow this. The Response.set_cookie() function stores cookie values as Python objects - so the email string is written as a Python string with quotes...
 
+Installation
+------------
 
-* Installation *
+Check the project out as something you can put on your python path:
+git clone git@github.com:johnboxall/django-tenderize.git django_tenderize
 
 Tender uses tasty cookies to log your users in.
 http://help.tenderapp.com/faqs/setup-installation/login-from-cookies
 
 This app includes a view like `django.contrib.auth.views.login` that in addition to logging a user in as normal, sets the cookies required by Tender. Yum.
+
+Settings
+--------
 
 To use it you'll need these settings in your `settings.py`:
 
