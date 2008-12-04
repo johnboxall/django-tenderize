@@ -1,0 +1,15 @@
+* Installation *
+
+Tender uses tasty cookies to log your users in.
+This app contains an example view showing how to create them.
+
+To use it you'll need these settings in your settings.py:
+
+# .yourdomain.com
+TENDER_COOKIE_DOMAIN = '.mobify.me'
+
+# get from tender
+TENDER_SECRET = "???"
+
+# your.tenderapp.com
+TENDER_DOMAIN = 'support.mobify.me'
