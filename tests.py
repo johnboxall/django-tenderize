@@ -1,6 +1,6 @@
 import unittest
 
-from jungle.tender.helpers import tender_hash
+from django_tenderize.helpers import tender_hash
 
 class TenderHashTestCase(unittest.TestCase):
     def testTenderHash(self):
