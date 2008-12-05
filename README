@@ -22,13 +22,13 @@ git clone git@github.com:johnboxall/django-tenderize.git tenderize
 Second `tenderize` to your installed apps, and add the following to `settings.py`:
 
 # .yourdomain.com
-TENDER_COOKIE_DOMAIN = '.mobify.me'
+TENDER_COOKIE_DOMAIN = '.mysite.com'
 
 # get from tender
 TENDER_SECRET = "???"
 
 # your.tenderapp.com
-TENDER_DOMAIN = 'support.mobify.me'
+TENDER_DOMAIN = 'support.mysite.com'
 
 # how long the cookies will last
 TENDER_COOKIE_AGE = 1209600 # (2 weeks in seconds)
