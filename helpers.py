@@ -22,7 +22,10 @@ def tenderize_response(response, email):
     tender_expires = int(expires)  # Tender wants expires in epoch seconds
     cookie_expires = cookie_date(expires)  # Cookie time for the cookie
     hashed = tender_hash(email, tender_expires)
-    response.set_cookie('tender_email', email, expires=cookie_expires, domain=settings.TENDER_COOKIE_DOMAIN)
     response.set_cookie('tender_expires', tender_expires, expires=cookie_expires, domain=settings.TENDER_COOKIE_DOMAIN)
     response.set_cookie('tender_hash', hashed, expires=cookie_expires, domain=settings.TENDER_COOKIE_DOMAIN)
+    response.set_cookie('tender_email', email, expires=cookie_expires, domain=settings.TENDER_COOKIE_DOMAIN)
+    # response.set_cookie() incorrectly sets coded_value to "<email>"
+    # we need to override that default value be just <email>
+    response.cookies['tender_email'].coded_value = email    
     return response
