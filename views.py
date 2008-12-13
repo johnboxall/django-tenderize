@@ -4,7 +4,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.cache import never_cache
 
-from jungle.tender.helpers import tenderize_response
+from tenderize.helpers import tenderize_response
 
 def login_and_tenderize(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
     "Displays the login form and handles the login action. Sets Tender cookies if successful."
