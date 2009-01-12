@@ -10,10 +10,10 @@ This app includes a view like `django.contrib.auth.views.login` that in addition
 Installation
 ------------
 
-First checkout the project into a folder called `tenderize` on your python path:
-git clone git@github.com:johnboxall/django-tenderize.git tenderize
+1) Checkout the project into a folder called `tenderize` on your python path:
+git clone git://github.com/johnboxall/django-tenderize.git tenderize
 
-Second `tenderize` to your installed apps, and add the following to `settings.py`:
+2) Add `tenderize` to your installed apps, and add the following to `settings.py`:
 
 # .yourdomain.com
 TENDER_COOKIE_DOMAIN = '.mysite.com'
@@ -27,6 +27,6 @@ TENDER_DOMAIN = 'support.mysite.com'
 # how long the cookies will last
 TENDER_COOKIE_AGE = 1209600 # (2 weeks in seconds)
 
-Third the following to urlpatterns in `urls.py`:
+3) Add the following to urlpatterns in `urls.py`:
 
 url(r'^login/$', 'tenderize.views.login_and_tenderize', name="login")
