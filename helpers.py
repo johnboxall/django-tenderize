@@ -27,7 +27,7 @@ def tenderize_response(response, email, extra_cookies=None):
     tender_expires = int(expires)
     cookie_expires = cookie_date(expires)
     hashed = tender_hash(email, tender_expires)
-    cookies = dict(expires=expires, hash=hashed, email=email)
+    cookies = dict(expires=tender_expires, hash=hashed, email=email)
     # Add extra Tender cookies: http://tinyurl.com/8vwxyw
     if extra_cookies is not None:
         cookies.update(extra_cookies)
