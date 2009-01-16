@@ -7,13 +7,20 @@ from django.utils.http import cookie_date
 
 # help.yourapp.com/user@gmail.com/1228117891
 HASH_FORMAT = "%s/%s/%s"
+# tender_xxx
 COOKIE_FORMAT = "tender_%s"
-DOMAIN = settings.TENDER_COOKIE_DOMAIN
+# support.tender.com
+TENDER_DOMAIN = settings.TENDER_DOMAIN
+# .tender.com
+COOKIE_DOMAIN = TENDER_DOMAIN[TENDER_DOMAIN.find('.'):]
+# get from Tender - http://support.example.com/settings
 SECRET = settings.TENDER_SECRET
+# cookie age in seconds
 AGE = settings.TENDER_COOKIE_AGE
 
-def tender_hash(email, expires, tender=DOMAIN, secret=SECRET):
-    """Calculates the tender hash."""
+
+def tender_hash(email, expires, tender=TENDER_DOMAIN, secret=SECRET):
+    """Calculates and returns `tender_hash`."""
     s = HASH_FORMAT % (tender, email, expires)
     sig = hmac.new(secret, digestmod=sha)
     sig.update(s)
@@ -21,7 +28,7 @@ def tender_hash(email, expires, tender=DOMAIN, secret=SECRET):
     return tender_hash
     
 def tenderize_response(response, email, extra_cookies=None):
-    """Adds tender cookies to `response.`"""
+    """Adds tender cookies to `response`."""
     expires = time() + AGE
     # Tender wants expires in epoch seconds, expires is set with `cookie_date`
     tender_expires = int(expires)
@@ -33,8 +40,8 @@ def tenderize_response(response, email, extra_cookies=None):
         cookies.update(extra_cookies)
     for key, value in cookies.iteritems():
         cookie = COOKIE_FORMAT % key
-        response.set_cookie(cookie, value, expires=cookie_expires, domain=DOMAIN)
-    # `response.set_cookie()` incorrectly adds questions to the email cookie.
+        response.set_cookie(cookie, value, expires=cookie_expires, domain=COOKIE_DOMAIN)
+    # `response.set_cookie()` incorrectly adds quotes to the `tender_email` cookie.
     # To remove the quotes we set the value again.
     response.cookies['tender_email'].coded_value = email    
     return response
