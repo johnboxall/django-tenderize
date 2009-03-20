@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('',
-    url(r'^login/$', 'tenderize.views.login_and_tenderize', name="login"),
+urlpatterns = patterns('tenderize.views',
+    url(r'^login/$', 'login_and_tenderize', name="login"),
+    url(r'^logout/$', 'logout_and_detenderize', name="logout"),
 )
 
 
