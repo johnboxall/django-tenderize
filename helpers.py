@@ -28,8 +28,7 @@ def tender_hash(email, expires, tender=TENDER_DOMAIN, secret=SECRET):
     s = HASH_FORMAT % (tender, email, expires)
     sig = hmac.new(secret, digestmod=sha_constructor)
     sig.update(s)
-    tender_hash = sig.hexdigest()
-    return tender_hash
+    return sig.hexdigest()
     
 def tenderize_response(response, email, extra_cookies=None):
     """
