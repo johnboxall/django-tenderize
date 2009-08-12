@@ -1,9 +1,10 @@
 import hmac
-import sha
 from time import time
 
 from django.conf import settings
 from django.utils.http import cookie_date
+from django.utils.hashcompat import sha_constructor
+
 
 # help.yourapp.com/user@gmail.com/1228117891
 HASH_FORMAT = "%s/%s/%s"
@@ -25,7 +26,7 @@ def tender_hash(email, expires, tender=TENDER_DOMAIN, secret=SECRET):
     
     """
     s = HASH_FORMAT % (tender, email, expires)
-    sig = hmac.new(secret, digestmod=sha)
+    sig = hmac.new(secret, digestmod=sha_constructor)
     sig.update(s)
     tender_hash = sig.hexdigest()
     return tender_hash
