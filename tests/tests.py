@@ -1,22 +1,35 @@
-import unittest
+import os
 
-from django.test.client import Client
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.test import TestCase
 
 from tenderize.helpers import tender_hash, tenderize_response
 from tenderize.views import login_and_tenderize
 
 
-class TenderizeTestCase(unittest.TestCase):
+class TenderizeTest(TestCase):
+    urls = 'tenderize.tests.test_urls'
+    template_dirs = [
+        os.path.join(os.path.dirname(__file__), 'templates'),
+    ]
+
     def setUp(self):
+        # Template nessecary to test login.
+        self.old_template_dir = settings.TEMPLATE_DIRS
+        settings.TEMPLATE_DIRS = self.template_dirs
+
         self.user = 'user'
         self.email = 'user@gmail.com'
         self.password = 'password'
         self.tender = 'help.yourapp.com'
         self.expires = 1228117891
         self.secret = 'monkey'
+ 
+    def tearDown(self):
+        settings.TEMPLATE_DIRS = self.old_template_dir
 
     def testTenderHash(self):
         result = tender_hash(self.email, self.expires, self.tender, self.secret)
@@ -32,15 +45,18 @@ class TenderizeTestCase(unittest.TestCase):
         self.assertTrue('tender_hash' in response.cookies)
                 
     def testLoginAndTenderize(self):
-        c = Client()
         user = User.objects.create_user(self.user, self.email, self.password)
+        
         # Correct login returns HttpResponseRedirect
-        login = reverse('login')
-        response = c.post(login, {'username': self.user, 'password': self.password})
+        login = reverse('login_and_tenderize')
+        data = {'username': self.user, 'password': self.password}
+        response = self.client.post(login, data)
         self.assertTrue(isinstance(response, HttpResponseRedirect))
         self.assertTrue('tender_expires' in response.cookies)
         self.assertTrue('tender_hash' in response.cookies)
         self.assertTrue('tender_email' in response.cookies)
+        
         # Bad login returns HttpResponse
-        response = c.post(login, {'username': self.user, 'password': 'EVIL'})
+        bad_data = {'username': self.user, 'password': 'monkey'}
+        response = self.client.post(login, bad_data, follow=False)
         self.assertTrue(isinstance(response, HttpResponse))
